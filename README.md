@@ -61,5 +61,5 @@ Tested on: `ubuntu 14.04`, `ubuntu 16.04`, `ubuntu 18.04`, `lubuntu 18.04` and `
 
 ## Related projects
 
-* [realpython: python speech recognition](https://realpython.com/python-speech-recognition/)
+* [pyttsx3: python speech](https://pypi.org/project/pyttsx3/)
 
