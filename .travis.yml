@@ -56,7 +56,7 @@ install:
 
 # Instalar pyttsx3
 
-  - sudo pip3 install pyttsx3
+  - sudo pip install pyttsx3
 
 # Tareas a ejecutar antes de nuestra prueba
 
