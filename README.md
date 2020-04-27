@@ -50,6 +50,11 @@ pip2 install pyttsx3
 pip3 install pyttsx3
 ```
 
+Using `Microsoft Windows` also needs:
+```bash
+pip3 install pypiwin32
+```
+
 Tested on: `ubuntu 14.04`, `ubuntu 16.04`, `ubuntu 18.04`, `lubuntu 18.04` and `raspbian`.
 
 
