@@ -19,7 +19,6 @@
 '''
 
 # Libraries
-
 import os
 import platform
 import sys
@@ -136,7 +135,7 @@ while exit==0:
     inputBottle.clear()
     print("Waiting for input text...")
     tts_inputPort.read(inputBottle)
-    text=inputtBottle.toString()
+    text=inputBottle.toString()
     print("")
 
     # Speak
