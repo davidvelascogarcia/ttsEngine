@@ -42,6 +42,14 @@ print("Starting system...")
 print("")
 print("Loading TTS engine...")
 
+
+
+print("")
+print("")
+print("**************************************************************************")
+print("YARP configuration:")
+print("**************************************************************************")
+print("")
 print("")
 print("Initializing YARP network...")
 
@@ -80,10 +88,12 @@ print("")
 print("Detecting system and release version...")
 systemPlatform = platform.system()
 systemRelease = platform.release()
-print(" ")
-print("***********************")
+
+print("")
+print("")
+print("**************************************************************************")
 print("Configuration detected:")
-print("***********************")
+print("**************************************************************************")
 print("Platform:")
 print(systemPlatform)
 print("Release:")
@@ -92,6 +102,12 @@ print(systemRelease)
 print("")
 print("Getting system tts voices...")
 systemVoices = ttsEngine.getProperty('voices')
+
+print("")
+print("")
+print("**************************************************************************")
+print("Voices configuration:")
+print("**************************************************************************")
 
 print("")
 print("Setting tts voice...")
@@ -106,6 +122,13 @@ else:
     ttsEngine.setProperty('voice',systemVoices[1].id)
 
 exit=0
+
+print("")
+print("")
+print("**************************************************************************")
+print("Processing:")
+print("**************************************************************************")
+print("")
 
 while exit==0:
 
@@ -146,3 +169,10 @@ while exit==0:
 print("Closing YARP ports...")
 tts_inputPort.close()
 tts_outputPort.close()
+
+
+print("")
+print("")
+print("**************************************************************************")
+print("Program finished")
+print("**************************************************************************")
