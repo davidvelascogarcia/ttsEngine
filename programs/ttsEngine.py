@@ -36,10 +36,10 @@ print("*************************************************************************
 print("**************************************************************************")
 
 print("")
-print("Starting system...")
+print("Starting system ...")
 
 print("")
-print("Loading TTS engine...")
+print("Loading TTS engine ...")
 
 
 
@@ -50,14 +50,14 @@ print("YARP configuration:")
 print("**************************************************************************")
 print("")
 print("")
-print("Initializing YARP network...")
+print("Initializing YARP network ...")
 
 # Init YARP Network
 yarp.Network.init()
 
 
 print("")
-print("Opening data input port with name /tts/data:i ...")
+print("[INFO] Opening data input port with name /tts/data:i ...")
 
 # Open input tts port
 tts_inputPort = yarp.Port()
@@ -68,7 +68,7 @@ tts_inputPort.open(tts_inputPortName)
 inputBottle=yarp.Bottle()
 
 print("")
-print("Opening data output port with name /tts/data:o ...")
+print("[INFO] Opening data output port with name /tts/data:o ...")
 
 # Open output tts port
 tts_outputPort = yarp.Port()
@@ -139,11 +139,11 @@ while exit==0:
     print("")
 
     # Speak
-    print("Receive: "+text)
+    print("[RECEIVE] Receive: "+text)
     print("")
 
     if text!="":
-        print("Speaking...")
+        print("Speaking ...")
         ttsEngine.say(text)
         ttsEngine.runAndWait()
 
@@ -158,11 +158,11 @@ while exit==0:
 
         if text=="exit":
             exit=1
-            ttsEngine.say("Mensaje recibido, apagando el motor de habla")
+            ttsEngine.say("[INFO] Mensaje recibido, apagando el motor de habla")
             ttsEngine.runAndWait()
 
     else:
-        print("Error, empty message.")
+        print("[ERROR] Error, empty message.")
 
 # Close YARP ports
 print("Closing YARP ports...")
