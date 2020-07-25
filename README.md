@@ -11,7 +11,7 @@
 
 ## Introduction
 
-`ttsEngine` module use `pyttsx3` in `python`. This module performs TTS and converts recieved text to voice. Also use `YARP` to receive text to synthesize by network. This module also publish TTS results in `YARP` port.
+`ttsEngine` module use `pyttsx3` and `gTTS` in `python`. This module performs TTS and converts recieved text to voice. Also use `YARP` to receive text to synthesize by network. This module also publish TTS results in `YARP` port. If network connection is available uses `gTTS` system voice, if not, uses system default voice.
 
 
 ## Use
@@ -38,6 +38,10 @@ NOTE:
 
 * [Install YARP 2.3.XX+](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-yarp.md)
 * [Install pip](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-pip.md)
+* Install gTTS:
+```bash
+pip3 install gTTS
+```
 * Install pyttsx3:
 
 (Using YARP with Python 2.7 bindings)
@@ -55,7 +59,7 @@ Using `Microsoft Windows` also needs:
 pip3 install pypiwin32
 ```
 
-Tested on: `ubuntu 14.04`, `ubuntu 16.04`, `ubuntu 18.04`, `lubuntu 18.04` and `raspbian`.
+Tested on: `windows 10`, `ubuntu 14.04`, `ubuntu 16.04`, `ubuntu 18.04`, `lubuntu 18.04` and `raspbian`.
 
 
 ## Status
