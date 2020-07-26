@@ -39,7 +39,7 @@ def checkNetworkConnection():
     # Try to connect to Google to check network connection if it´s ok return True
     try:
         # Connect to Google server
-        urllib.request.urlopen("http://www.google.es")
+        urllib.request.urlopen("http://www.google.es", timeout=1)
 
         print("")
         print("[INFO] Network connection is operational.")
