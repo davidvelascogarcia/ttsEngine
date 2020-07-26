@@ -26,7 +26,35 @@ from pydub import AudioSegment
 from pydub.playback import play
 import sys
 import time
+import urllib.request
 import yarp
+
+# Define checkNetworkConnection function
+def checkNetworkConnection():
+
+    print("")
+    print("[INFO] Checking network connection at " + str(datetime.datetime.now()) + " ...")
+    print("")
+
+    # Try to connect to Google to check network connection if it´s ok return True
+    try:
+        # Connect to Google server
+        urllib.request.urlopen("http://www.google.es")
+
+        print("")
+        print("[INFO] Network connection is operational.")
+        print("")
+
+        return True
+
+    # If not network connection return False
+    except:
+
+        print("")
+        print("[ERROR] Network connection is not operational.")
+        print("")
+
+        return False
 
 
 print("**************************************************************************")
@@ -70,11 +98,27 @@ print("")
 print("[INFO] Initializing ttsEngine ...")
 print("")
 
+print("")
+print("[INFO] Building ttsEngineOffline module ...")
+print("")
+
 # Initializing offline default engine
 ttsEngineOffline = pyttsx3.init()
 
+print("")
+print("[INFO] ttsEngineOffline modules built correctly.")
+print("")
+
+print("")
+print("[INFO] Build ttsEngineOnline modules ...")
+print("")
+
 # Initializing online default engine
 onlineTempAudioClip = BytesIO()
+
+print("")
+print("[INFO] ttsEngineOnline modules built correctly.")
+print("")
 
 print("")
 print("[INFO] TTS engine initialized correctly at " + str(datetime.datetime.now()) + ".")
@@ -82,10 +126,10 @@ print("")
 
 print("")
 print("**************************************************************************")
-print("Loading TTS voices:")
+print("Loading Offline TTS voices:")
 print("**************************************************************************")
 print("")
-print("[INFO] Loading TTS system voices ...")
+print("[INFO] Loading Offline TTS system voices ...")
 print("")
 
 # Get system voices
@@ -100,7 +144,7 @@ print("*************************************************************************
 print("Voices configuration:")
 print("**************************************************************************")
 print("")
-print("Setting tts voice ...")
+print("Setting Offline ttsEngine voice ...")
 print("")
 
 # If systemPlatform is Linux
@@ -121,7 +165,7 @@ else:
 
 
 print("")
-print("[INFO] System TTS voice selected correctly at " + str(datetime.datetime.now()) + ".")
+print("[INFO] System Offline TTS voice selected correctly at " + str(datetime.datetime.now()) + ".")
 print("")
 
 print("")
@@ -173,7 +217,7 @@ while int(loopControlSpeak) == 0:
     print("Waiting for input TTS:")
     print("**************************************************************************")
     print("")
-    print("[INFO] Waiting for input TTS text...")
+    print("[INFO] Waiting for input TTS text at " + str(datetime.datetime.now()) + " ...")
     print("")
 
     # Receive ttsEngine text to speak
@@ -186,7 +230,7 @@ while int(loopControlSpeak) == 0:
     print("Processing input request text:")
     print("**************************************************************************")
     print("")
-    print("[INFO] Processing input request text ...")
+    print("[INFO] Processing input request text at " + str(datetime.datetime.now()) + " ...")
     print("")
 
     # Clear string to remove ""
@@ -205,34 +249,63 @@ while int(loopControlSpeak) == 0:
         print("[INFO] Speaking TTS text ...")
         print("")
 
-        # If internet connection it´s ok, use Google Assistant voice
-        try:
-            # Send request and get tts voice
-            ttsEngineOnline = gTTS(str(ttsText), lang='es', slow=False)
+        # Check network connection
+        networkConnection = checkNetworkConnection()
 
-            # Save into temporal file
-            ttsEngineOnline.write_to_fp(onlineTempAudioClip)
-            onlineTempAudioClip.seek(0)
+        # If networkConnection is operative use Google Assistant voice
+        if networkConnection == True:
 
-            # Load temporal file with pydub to play
-            ttsSpokenVoice = AudioSegment.from_file(onlineTempAudioClip)
+            # If internet connection it´s ok, use Google Assistant voice
+            try:
+                # Send request and get tts voice
+                ttsEngineOnline = gTTS(str(ttsText), lang='es', slow=False)
 
-            # Speak tts audio
-            play(ttsSpokenVoice)
+                # Save into temporal file
+                ttsEngineOnline.write_to_fp(onlineTempAudioClip)
+                onlineTempAudioClip.seek(0)
 
-        # If internet connection it´s not ok use system offline default voice (Windows: SAPI5, Linux: MBrola, OS X: Siri)
-        except:
+                # Load temporal file with pydub to play
+                ttsSpokenVoice = AudioSegment.from_file(onlineTempAudioClip)
+
+                print("")
+                print("[INFO] Speaking using ttsEngineOnline mode at " + str(datetime.datetime.now()) + ".")
+                print("")
+
+                # Speak tts audio
+                play(ttsSpokenVoice)
+
+            # If internet connection it´s not ok use system offline default voice (Windows: SAPI5, Linux: MBrola, OS X: Siri) and error happen bettween right check and speak use system voice
+            except:
+
+                # Prepare text to say
+                ttsEngineOffline.say(ttsText)
+
+                print("")
+                print("[ERROR] Network connection lost speaking using ttsEngineOffline mode at " + str(datetime.datetime.now()) + ".")
+                print("")
+
+                # Speak the ttsText
+                ttsEngineOffline.runAndWait()
+
+        # If networkConnection is not operative use system default voice
+        elif networkConnection == False:
 
             # Prepare text to say
             ttsEngineOffline.say(ttsText)
+
+            print("")
+            print("[INFO] Speaking using ttsEngineOffline mode at " + str(datetime.datetime.now()) + ".")
+            print("")
 
             # Speak the ttsText
             ttsEngineOffline.runAndWait()
 
         # Send text mirror ttsEngine_outputPort
         ttsEngineOutputBottle.clear()
-        ttsEngineOutputBottle.addString("TTS Spoken:")
+        ttsEngineOutputBottle.addString("TTS:")
         ttsEngineOutputBottle.addString(ttsText)
+        ttsEngineOutputBottle.addString("DATE:")
+        ttsEngineOutputBottle.addString(str(datetime.datetime.now()))
         ttsEngine_outputPort.write(ttsEngineOutputBottle)
 
         # If receive key word exit from loopControlSpeak
@@ -251,7 +324,7 @@ while int(loopControlSpeak) == 0:
     # If emply ttsText
     else:
         print("")
-        print("[ERROR] Error, empty message.")
+        print("[ERROR] Error, empty message at " + str(datetime.datetime.now()) + " ...")
         print("")
 
 # Close YARP ports
